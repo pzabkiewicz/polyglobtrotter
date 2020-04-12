@@ -28,7 +28,7 @@
         android:layout_marginBottom="8dp"
         android:hint="from"
         app:layout_constraintBottom_toTopOf="@+id/language_to"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/swap_language_button"
         app:layout_constraintStart_toEndOf="@+id/ic_language_from"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -51,7 +51,7 @@
         app:srcCompat="@drawable/ic_english_flag" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/swap_language_button"
         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:hint="to"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/swap_language_button"
         app:layout_constraintStart_toEndOf="@+id/ic_language_to"
         app:layout_constraintTop_toBottomOf="@+id/language_from">
 
