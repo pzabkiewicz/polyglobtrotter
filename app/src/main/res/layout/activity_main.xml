@@ -7,33 +7,33 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/ic_language_from"
+        android:id="@+id/imgLanguageFrom"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_english_flag" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/language_from"
+        android:id="@+id/languageFrom"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:hint="from"
         app:layout_constraintBottom_toTopOf="@+id/language_to"
-        app:layout_constraintEnd_toStartOf="@+id/swap_language_button"
-        app:layout_constraintStart_toEndOf="@+id/ic_language_from"
+        app:layout_constraintEnd_toStartOf="@+id/swapLanguageButton"
+        app:layout_constraintStart_toEndOf="@+id/imgLanguageFrom"
         app:layout_constraintTop_toTopOf="parent">
 
         <AutoCompleteTextView
-            android:id="@+id/language_from_view"
+            android:id="@+id/languageFromView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none" />
@@ -41,17 +41,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/ic_language_to"
+        android:id="@+id/imgLanguageTo"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ic_language_from"
+        app:layout_constraintTop_toBottomOf="@+id/imgLanguageFrom"
         app:srcCompat="@drawable/ic_english_flag" />
 
     <Button
-        android:id="@+id/swap_language_button"
+        android:id="@+id/swapLanguageButton"
         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,9 +72,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:hint="to"
-        app:layout_constraintEnd_toStartOf="@+id/swap_language_button"
-        app:layout_constraintStart_toEndOf="@+id/ic_language_to"
-        app:layout_constraintTop_toBottomOf="@+id/language_from">
+        app:layout_constraintEnd_toStartOf="@+id/swapLanguageButton"
+        app:layout_constraintStart_toEndOf="@+id/imgLanguageTo"
+        app:layout_constraintTop_toBottomOf="@+id/languageFrom">
 
         <AutoCompleteTextView
             android:id="@+id/language_to_view"
@@ -91,20 +91,21 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:hint="label"
+        android:hint="Type a word..."
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/language_to">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchInput"
+            android:id="@+id/wordFilterInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/wordsRecyclerView"
         android:layout_width="412dp"
         android:layout_height="531dp"
         android:layout_marginStart="8dp"
@@ -112,8 +113,6 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchInputLayout">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
