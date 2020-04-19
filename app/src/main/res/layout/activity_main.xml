@@ -10,7 +10,7 @@
         android:id="@+id/imgLanguageFrom"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,11 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
         android:hint="from"
-        app:layout_constraintBottom_toTopOf="@+id/language_to"
-        app:layout_constraintEnd_toStartOf="@+id/swapLanguageButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgLanguageFrom"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -40,62 +38,38 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/imgLanguageTo"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLanguageFrom"
-        app:srcCompat="@drawable/ic_english_flag" />
-
-    <Button
-        android:id="@+id/swapLanguageButton"
-        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:id="@+id/languagesToHorizontalScrollView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:icon="@drawable/ic_swap_vert"
-        app:layout_constraintBottom_toTopOf="@+id/searchInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/language_to"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:hint="to"
-        app:layout_constraintEnd_toStartOf="@+id/swapLanguageButton"
-        app:layout_constraintStart_toEndOf="@+id/imgLanguageTo"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/languageFrom">
 
-        <AutoCompleteTextView
-            android:id="@+id/language_to_view"
-            android:layout_width="match_parent"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/languagesFilter"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            app:chipSpacing="2dp"
+            app:singleLine="true" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </HorizontalScrollView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:hint="Type a word..."
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/language_to">
+        app:layout_constraintTop_toBottomOf="@+id/languagesToHorizontalScrollView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/wordFilterInput"
@@ -106,13 +80,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wordsRecyclerView"
-        android:layout_width="412dp"
-        android:layout_height="531dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="406dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.727"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

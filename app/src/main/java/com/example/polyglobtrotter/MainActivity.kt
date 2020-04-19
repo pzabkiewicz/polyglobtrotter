@@ -6,18 +6,19 @@ import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mLanguageFromDropdown: AutoCompleteTextView;
-    private lateinit var mLanguageToDropdown: AutoCompleteTextView;
     private lateinit var mFlagFromImageView: ImageView
-    private lateinit var mFlagToImageView: ImageView
+    private lateinit var mLanguagesFilter: ChipGroup
 
     private lateinit var mWordsRecyclerView: RecyclerView
     private lateinit var mWordsRecycleViewManager: RecyclerView.LayoutManager
@@ -25,31 +26,28 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mWordList: Array<String>
 
+    private var mCurrentLanguageChoice: Language = DEFAULT_LANGUAGE_FROM
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val languageList = LANGUAGE_TO_DRAWABLE.map { e -> LanguageDropdownItem(e.key, e.value) }
+
+        // Dropdown
         val adapter = LanguageAdapter(this, languageList)
         mFlagFromImageView = imgLanguageFrom
-        mFlagToImageView = imgLanguageTo
         mLanguageFromDropdown = languageFromView
-        mLanguageToDropdown = language_to_view
 
         setupLanguageDropdownView(mLanguageFromDropdown, adapter, mFlagFromImageView)
-        setupLanguageDropdownView(mLanguageToDropdown, adapter, mFlagToImageView)
 
-        mFlagFromImageView.setImageResource(LANGUAGE_TO_DRAWABLE[DEFAULT_LANGUAGE_FROM]!!)
-        mLanguageFromDropdown.setText(DEFAULT_LANGUAGE_FROM.name, false)
-        mFlagToImageView.setImageResource(LANGUAGE_TO_DRAWABLE[DEFAULT_LANGUAGE_TO]!!)
-        mLanguageToDropdown.setText(DEFAULT_LANGUAGE_TO.name, false)
+        mLanguagesFilter = languagesFilter
+        LANGUAGE_TO_DRAWABLE.entries
+            .filter { it.key != mCurrentLanguageChoice }
+            .forEach { addLanguageChip(it.toPair()) }
 
         val languageFrom: Language = Language.valueOf(mLanguageFromDropdown.text.toString())
         mWordList = WORDS?.get(languageFrom) ?: arrayOf()
-
-
-        val swapButton = swapLanguageButton
-        swapButton.setOnClickListener { onSwapLanguages() }
 
         mWordsRecycleViewManager = LinearLayoutManager(this)
         mWordsRecyclerViewAdapter = WordRecyclerViewAdapter(mWordList)
@@ -68,33 +66,45 @@ class MainActivity : AppCompatActivity() {
             inputTurnOff()
             setAdapter(adapter)
             setOnItemClickListener { parent, view, position, id ->
+
                 val selectedLanguage = parent!!.getItemAtPosition(position) as LanguageDropdownItem
+
+                if (selectedLanguage.language == mCurrentLanguageChoice)
+                    return@setOnItemClickListener
+
                 flagView.setImageResource(selectedLanguage.drawableFlag)
+                val chipToRemove: View? = mLanguagesFilter.children
+                    .find { (it as Chip).text.toString() == selectedLanguage.language.name }
+
+                chipToRemove?.apply {
+                    mLanguagesFilter.removeView(this)
+                    val languageImg = LANGUAGE_TO_DRAWABLE[mCurrentLanguageChoice]!!
+                    addLanguageChip(mCurrentLanguageChoice to languageImg)
+                    mCurrentLanguageChoice = selectedLanguage.language
+                }
+
             }
         }
+
+        mFlagFromImageView.setImageResource(LANGUAGE_TO_DRAWABLE[DEFAULT_LANGUAGE_FROM]!!)
+        mLanguageFromDropdown.setText(DEFAULT_LANGUAGE_FROM.name, false)
+    }
+
+    private fun addLanguageChip(language: Pair<Language, Int>) {
+        val chip = Chip(mLanguagesFilter.context)
+        chip.text = language.first.name
+        chip.isSelected = true
+        chip.isCheckable = true
+        chip.chipIcon = getDrawable(language.second)
+        mLanguagesFilter.addView(chip)
     }
 
     private fun AutoCompleteTextView.inputTurnOff() {
         this.inputType = InputType.TYPE_NULL
     }
 
-    private fun onSwapLanguages() {
-        val oldLangFrom = mLanguageFromDropdown.text.toString()
-        val oldLangTo = mLanguageToDropdown.text.toString()
-        mLanguageFromDropdown.setText(oldLangTo, false)
-        mLanguageToDropdown.setText(oldLangFrom, false)
-
-        val newLanguageFrom = Language.valueOf(oldLangTo)
-
-        mFlagFromImageView.setImageResource(LANGUAGE_TO_DRAWABLE[newLanguageFrom]!!)
-        mFlagToImageView.setImageResource(LANGUAGE_TO_DRAWABLE[Language.valueOf(oldLangFrom)]!!)
-
-        mWordList = WORDS?.get(newLanguageFrom) ?: arrayOf()
-    }
-
     companion object {
         private val DEFAULT_LANGUAGE_FROM = Language.POLISH
-        private val DEFAULT_LANGUAGE_TO = Language.ENGLISH
         private val LANGUAGE_TO_DRAWABLE = initMap()
 
         private fun initMap(): EnumMap<Language, Int> {
